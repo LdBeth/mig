@@ -23,6 +23,7 @@ modifying and distributing it without prior consent from the author.
 
 (load #P"mig.lisp")
 
+@ @l
 @e
 (in-package #:mig)
 

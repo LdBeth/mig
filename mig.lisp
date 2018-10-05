@@ -1,5 +1,6 @@
-;;;; TANGLED WEB FROM "mig.clw". DO NOT EDIT.
+;;;; TANGLED WEB FROM "mig/mig.clw". DO NOT EDIT.
 
+(IN-PACKAGE #:MIG)
 (DEFINE-SYMBOL-MACRO *W* (GET-FRAME-PANE *FRAME* 'DISPLAY))
 (DEFVAR *FRAME* NIL)
 (DEFINE-APPLICATION-FRAME
@@ -130,6 +131,7 @@
   (DOTIMES (I 4)
     (PLOT-STRING (* I 10)
                  (+ 150 (* I 22))
-                 "Mark's plot utilities...."))
-  (PLOT-STRING-BOLD 20 260 "This is a test... of BOLD")
-  (PLOT-STRING-ITALIC 20 280 "This is a test... of ITALIC"))
+                 "Mark's plot utilities...."
+                 (* I 5)))
+  (PLOT-STRING-BOLD 20 260 "This is a test... of BOLD" 20)
+  (PLOT-STRING-ITALIC 20 280 "This is a test... of ITALIC" 15))
