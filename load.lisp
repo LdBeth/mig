@@ -1,8 +1,13 @@
-;;;; TANGLED WEB FROM "mig/mig.clw". DO NOT EDIT.
+;;;; TANGLED WEB FROM "mig.clw". DO NOT EDIT.
 
 (QUICKLISP-CLIENT:QUICKLOAD :MCCLIM)
 (DEFPACKAGE #:MIG
             (:USE #:COMMON-LISP #:CLIM)
             (:SHADOWING-IMPORT-FROM #:COMMON-LISP
-             #:INTERACTIVE-STREAM-P))
-(LOAD #P"mig.lisp")
+             #:INTERACTIVE-STREAM-P)
+            (:EXPORT #:INIT-PLOT #:PLOT-FILL-RECT #:PLOT-SIZE-RECT
+             #:CLEAR-PLOT #:PEN-WIDTH #:PLOT-FRAME-RECT #:PLOT-LINE
+             #:SHOW-PLOT #:PLOT-STRING))
+(LOAD #P"mig")
+#+:CCL
+(load #P"ccl-patch")

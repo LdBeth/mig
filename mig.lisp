@@ -1,4 +1,4 @@
-;;;; TANGLED WEB FROM "mig/mig.clw". DO NOT EDIT.
+;;;; TANGLED WEB FROM "mig.clw". DO NOT EDIT.
 
 (IN-PACKAGE #:MIG)
 (DEFINE-SYMBOL-MACRO *W* (GET-FRAME-PANE *FRAME* 'DISPLAY))
@@ -90,48 +90,3 @@
   (DRAW-TEXT* *W* STR X Y :TEXT-SIZE SIZE :TEXT-FACE :BOLD))
 (DEFUN PLOT-STRING-ITALIC (X Y STR &OPTIONAL (SIZE 12))
   (DRAW-TEXT* *W* STR X Y :TEXT-SIZE SIZE :TEXT-FACE :ITALIC))
-#+:CCL
-(progn
-  #.(setf *package* (find-package '#:zpb-ttf))
-
-  (defun open-font-loader-from-file (thing)
-    (let ((stream (open thing
-                        :direction :input
-                        :element-type '(unsigned-byte 8) :sharing :lock)))
-      (let ((font-loader (open-font-loader-from-stream stream)))
-        (arrange-finalization font-loader stream)
-        font-loader)))
-
-  (defun open-font-loader (thing)
-    (typecase thing
-      (font-loader
-       (unless (open-stream-p (input-stream thing))
-         (setf (input-stream thing) (open (input-stream thing) :sharing :lock)))
-       thing)
-      (stream
-       (if (open-stream-p thing)
-           (open-font-loader-from-stream thing)
-           (error "~A is not an open stream" thing)))
-      (t
-       (open-font-loader-from-file thing))))
-  #.(setf *package* (find-package '#:mig)))
-(DEFUN TEST ()
-  (SHOW-PLOT)
-  (CLEAR-PLOT)
-  (DOTIMES (I 6)
-    (PLOT-FILL-RECT (* I 9) (* I 9) 8 8 I)
-    (PLOT-FRAME-RECT (* I 9) (* I 9) 8 8))
-  (DOTIMES (I 50)
-    (PLOT-SIZE-RECT
-      (+ 160 (RANDOM 200))
-      (RANDOM 100)
-      (RANDOM 20)
-      (RANDOM 20)
-      (RANDOM 5)))
-  (DOTIMES (I 4)
-    (PLOT-STRING (* I 10)
-                 (+ 150 (* I 22))
-                 "Mark's plot utilities...."
-                 (* I 5)))
-  (PLOT-STRING-BOLD 20 260 "This is a test... of BOLD" 20)
-  (PLOT-STRING-ITALIC 20 280 "This is a test... of ITALIC" 15))

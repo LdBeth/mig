@@ -55,4 +55,4 @@
 *.pdf
 
 ## CLWEB's own outputs
-mig.tex
+mig*.tex

@@ -19,9 +19,21 @@ modifying and distributing it without prior consent from the author.
   (:use #:common-lisp #:clim)
   (:shadowing-import-from
    #:common-lisp
-   #:interactive-stream-p))
+   #:interactive-stream-p)
+  (:export
+   #:init-plot
+   #:plot-fill-rect
+   #:plot-size-rect
+   #:clear-plot
+   #:pen-width
+   #:plot-frame-rect
+   #:plot-line
+   #:show-plot
+   #:plot-string))
 
-(load #P"mig.lisp")
+(load #P"mig")
+
+@<load patch@>
 
 @ @l
 @e
@@ -138,38 +150,19 @@ for |*w*|, which refers to the global variable |*frame*|.
 (defun plot-string-italic  (x y str &optional (size 12))
   (draw-text* *w* str x y :text-size size :text-face :italic))
 
-@ We have to override these two functions for CCL.
+@ We have to override loading font functions for CCL since it by default doesn't
+allow sharing stream across threads.
+@^Clozure Common Lisp@>
 
-@l
+@<load...@>=
 #+:ccl
-(progn
-  #.(setf *package* (find-package '#:zpb-ttf))
+(load #P"ccl-patch")
 
-  (defun open-font-loader-from-file (thing)
-    (let ((stream (open thing
-                        :direction :input
-                        :element-type '(unsigned-byte 8) :sharing :lock)))
-      (let ((font-loader (open-font-loader-from-stream stream)))
-        (arrange-finalization font-loader stream)
-        font-loader)))
-
-  (defun open-font-loader (thing)
-    (typecase thing
-      (font-loader
-       (unless (open-stream-p (input-stream thing))
-         (setf (input-stream thing) (open (input-stream thing) :sharing :lock)))
-       thing)
-      (stream
-       (if (open-stream-p thing)
-           (open-font-loader-from-stream thing)
-           (error "~A is not an open stream" thing)))
-      (t
-       (open-font-loader-from-file thing))))
-  #.(setf *package* (find-package '#:mig)))
-
-@ And finally, the test.
+@t*Here is a simple test.
 
 @l
+(in-package #:mig)
+
 (defun test ()
   (show-plot)
   (clear-plot)
