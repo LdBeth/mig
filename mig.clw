@@ -4,11 +4,11 @@ learn how to do Artificial Intelligence in Common Lisp.
 @^CLIM@>
 @^Watson, Mark@>
 
-@1*Front matters and license issue. This file and generated files are in public
+@ Front matters and license issue. This file and generated files are in public
 domain. You can do what you want including but not limited to copying,
 modifying and distributing it without prior consent from the author.
 
-@ Begin our prelude. Shadow conflicted symbols. And this is a load script.
+@*Begin our prelude. Shadow conflicted symbols. And this is a load script.
 
 @(load.lisp@>=
 @e
